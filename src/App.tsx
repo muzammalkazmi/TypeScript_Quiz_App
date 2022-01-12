@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React,{useState,useEffect} from 'react'
+import {getQuiz} from './services/questionApi'
+import { showQuestion } from './types/Types'
+import QuestionCard from './components/QuestionCard'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import QuestionCard from './components/QuestionCard'
+
+export default function App() {
+    const [quiz,setQuiz]=useState<showQuestion[]>([])
+     useEffect(()=>{
+      async function fetchQuiz(){
+          const questions:showQuestion[]=await getQuiz(5,'easy')
+          setQuiz(questions)
+      }
+      fetchQuiz()
+    },[])
+    return (
+        <div>
+            React Quiz Application with TypeScript
+            
+            <QuestionCard
+            question={quiz[0].question}
+            />
+            
+            
+        </div>
+    )
 }
-
-export default App;
